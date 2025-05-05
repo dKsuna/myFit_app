@@ -11,6 +11,7 @@ import 'screens/registration/days_screen.dart';
 import 'screens/registration/equipment_screen.dart';
 import 'screens/registration/summary.dart';
 import 'screens/models/user_model.dart';
+import 'package:myfit/screens/main_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
           final user = ModalRoute.of(context)!.settings.arguments as User;
           return DetailsScreen(user: user);
         },
+        '/main': (context) => MainScreen(),
       },
       theme: ThemeData(primarySwatch: Colors.blue),
       debugShowCheckedModeBanner: false,

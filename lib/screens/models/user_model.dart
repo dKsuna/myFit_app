@@ -48,4 +48,35 @@ class User {
       equipmentAccess: equipmentAccess ?? this.equipmentAccess,
     );
   }
+/*
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'age': age,
+      'weightKg': weightKg,
+      'heightFeet': heightFeet,
+      'heightInches': heightInches,
+      'fitnessGoal': fitnessGoal,
+      'experienceLevel': experienceLevel,
+      'physicalIssues': physicalIssues,
+      'workoutDays': workoutDays.join(', '),
+      'equipmentAccess': equipmentAccess,
+    };
+  }
+
+  factory User.fromMap(Map<String, dynamic> map) {
+    return User(
+      name: map['name'],
+      age: map['age'],
+      weightKg: map['weightKg'],
+      heightFeet: map['heightFeet'],
+      heightInches: map['heightInches'],
+      fitnessGoal: map['fitnessGoal'],
+      experienceLevel: map['experienceLevel'],
+      physicalIssues: map['physicalIssues'],
+      workoutDays: map['workoutDays'].split(', '),
+      equipmentAccess: map['equipmentAccess'],
+    );
+  }
+}*/
 }
