@@ -7,8 +7,7 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Center(
-        child: Text("Your profile info goes here!",
-            style: TextStyle(fontSize: 24)),
+        child: Text("Profile Screen", style: TextStyle(fontSize: 24)),
       ),
     );
   }

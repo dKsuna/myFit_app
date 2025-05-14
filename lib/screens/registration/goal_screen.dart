@@ -12,8 +12,14 @@ class _GoalScreenState extends State<GoalScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final Map<String, dynamic> args =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    // Get the arguments passed from the previous screen, with a null check
+    final Map<String, dynamic>? args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+
+    // If arguments are not null and 'goal' is available, set it to _fitnessGoal
+    if (args != null && args['goal'] != null) {
+      _fitnessGoal = args['goal'];
+    }
 
     return Scaffold(
       appBar: AppBar(title: const Text('Fitness Goal')),
@@ -32,8 +38,15 @@ class _GoalScreenState extends State<GoalScreen> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/experience',
-                    arguments: {...args, 'goal': _fitnessGoal});
+                // Merge existing arguments with the new goal
+                Navigator.pushNamed(
+                  context,
+                  '/experience',
+                  arguments: {
+                    ...?args, // Spread the existing arguments (if any)
+                    'goal': _fitnessGoal
+                  },
+                );
               },
               child: const Text('Next'),
             )

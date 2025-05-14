@@ -7,8 +7,9 @@ class WeightScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Map<String, dynamic> args =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    // Get the arguments passed from the previous screen, with a null check
+    final Map<String, dynamic>? args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
 
     return Scaffold(
       appBar: AppBar(title: const Text("What's your weight?")),
@@ -24,10 +25,15 @@ class WeightScreen extends StatelessWidget {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/height', arguments: {
-                  ...args,
-                  'weight': weightController.text,
-                });
+                // Merge existing arguments with the new weight data
+                Navigator.pushNamed(
+                  context,
+                  '/height',
+                  arguments: {
+                    ...?args, // Spread the existing arguments (if any)
+                    'weight': weightController.text,
+                  },
+                );
               },
               child: const Text('Next'),
             ),

@@ -15,6 +15,7 @@ class _DaysScreenState extends State<DaysScreen> {
   Widget build(BuildContext context) {
     final Map<String, dynamic> args =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+
     return Scaffold(
       appBar: AppBar(title: const Text('Workout Days')),
       body: ListView(
@@ -36,8 +37,15 @@ class _DaysScreenState extends State<DaysScreen> {
           const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/equipment',
-                  arguments: {...args, 'days': _selectedDays});
+              Navigator.pushNamed(
+                context,
+                '/equipment', // Navigating to the EquipmentScreen
+                arguments: {
+                  ...args,
+                  'days':
+                      _selectedDays // Passing the selected days as a simple list
+                },
+              );
             },
             child: const Text('Next'),
           )

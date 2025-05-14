@@ -7,8 +7,7 @@ class ProgressScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Center(
-        child:
-            Text("Track your progress here!", style: TextStyle(fontSize: 24)),
+        child: Text("Progress Screen", style: TextStyle(fontSize: 24)),
       ),
     );
   }

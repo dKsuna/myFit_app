@@ -5,7 +5,7 @@ import 'screens/registration/age_screen.dart';
 import 'screens/registration/weight_screen.dart';
 import 'screens/registration/height_screen.dart';
 import 'screens/registration/goal_screen.dart';
-import 'screens/registration/expeience_screen.dart';
+import 'screens/registration/experience_screen.dart';
 import 'screens/registration/issues_screen.dart';
 import 'screens/registration/days_screen.dart';
 import 'screens/registration/equipment_screen.dart';
@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
           final user = ModalRoute.of(context)!.settings.arguments as User;
           return DetailsScreen(user: user);
         },
-        '/main': (context) => MainScreen(),
+        '/main': (context) => const MainScreen(),
       },
       theme: ThemeData(primarySwatch: Colors.blue),
       debugShowCheckedModeBanner: false,

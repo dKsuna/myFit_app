@@ -1,4 +1,5 @@
 class User {
+  final int? id;
   final String name;
   final int age;
   final double weightKg;
@@ -6,11 +7,14 @@ class User {
   final int heightInches;
   final String fitnessGoal;
   final String experienceLevel;
-  final List physicalIssues;
-  final List workoutDays;
+  final String physicalIssues;
+
+  // Store these fields as comma-separated Strings in the database
+  final String workoutDays;
   final String equipmentAccess;
 
   User({
+    this.id,
     required this.name,
     required this.age,
     required this.weightKg,
@@ -23,49 +27,14 @@ class User {
     required this.equipmentAccess,
   });
 
-  User copyWith({
-    String? name,
-    int? age,
-    double? weightKg,
-    int? heightFeet,
-    int? heightInches,
-    String? fitnessGoal,
-    String? experienceLevel,
-    List? physicalIssues,
-    List? workoutDays,
-    String? equipmentAccess,
-  }) {
-    return User(
-      name: name ?? this.name,
-      age: age ?? this.age,
-      weightKg: weightKg ?? this.weightKg,
-      heightFeet: heightFeet ?? this.heightFeet,
-      heightInches: heightInches ?? this.heightInches,
-      fitnessGoal: fitnessGoal ?? this.fitnessGoal,
-      experienceLevel: experienceLevel ?? this.experienceLevel,
-      physicalIssues: physicalIssues ?? this.physicalIssues,
-      workoutDays: workoutDays ?? this.workoutDays,
-      equipmentAccess: equipmentAccess ?? this.equipmentAccess,
-    );
-  }
-/*
-  Map<String, dynamic> toMap() {
-    return {
-      'name': name,
-      'age': age,
-      'weightKg': weightKg,
-      'heightFeet': heightFeet,
-      'heightInches': heightInches,
-      'fitnessGoal': fitnessGoal,
-      'experienceLevel': experienceLevel,
-      'physicalIssues': physicalIssues,
-      'workoutDays': workoutDays.join(', '),
-      'equipmentAccess': equipmentAccess,
-    };
-  }
+  // Convert comma-separated string back to List<String>
+  List<String> get workoutDaysList => workoutDays.split(',');
+  List<String> get equipmentAccessList => equipmentAccess.split(',');
 
+  // Static method to create a User from a Map (used for fetching data from SQLite)
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
+      id: map['id'],
       name: map['name'],
       age: map['age'],
       weightKg: map['weightKg'],
@@ -74,9 +43,25 @@ class User {
       fitnessGoal: map['fitnessGoal'],
       experienceLevel: map['experienceLevel'],
       physicalIssues: map['physicalIssues'],
-      workoutDays: map['workoutDays'].split(', '),
+      workoutDays: map['workoutDays'],
       equipmentAccess: map['equipmentAccess'],
     );
   }
-}*/
+
+  // Convert User object to Map (used for inserting data into SQLite)
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'age': age,
+      'weightKg': weightKg,
+      'heightFeet': heightFeet,
+      'heightInches': heightInches,
+      'fitnessGoal': fitnessGoal,
+      'experienceLevel': experienceLevel,
+      'physicalIssues': physicalIssues,
+      'workoutDays': workoutDays,
+      'equipmentAccess': equipmentAccess,
+    };
+  }
 }

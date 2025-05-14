@@ -14,6 +14,7 @@ class _EquipmentScreenState extends State<EquipmentScreen> {
   Widget build(BuildContext context) {
     final Map<String, dynamic> args =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+
     return Scaffold(
       appBar: AppBar(title: const Text('Equipment Access')),
       body: Padding(
@@ -31,11 +32,18 @@ class _EquipmentScreenState extends State<EquipmentScreen> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/summary',
-                    arguments: {...args, 'equipment': _equipmentAccess});
+                // Pass selected equipment as a single item list in arguments
+                Navigator.pushNamed(
+                  context,
+                  '/summary',
+                  arguments: {
+                    ...args,
+                    'equipment': [_equipmentAccess] // Send as list
+                  },
+                );
               },
               child: const Text('Next'),
-            )
+            ),
           ],
         ),
       ),

@@ -7,8 +7,9 @@ class AgeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Map<String, dynamic> args =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    // Safely get the arguments from the previous screen
+    final Map<String, dynamic>? args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
 
     return Scaffold(
       appBar: AppBar(title: const Text("What's your age?")),
@@ -24,10 +25,15 @@ class AgeScreen extends StatelessWidget {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/weight', arguments: {
-                  ...args,
-                  'age': ageController.text,
-                });
+                // Merge existing arguments with the new age data
+                Navigator.pushNamed(
+                  context,
+                  '/weight',
+                  arguments: {
+                    ...?args, // Spread the existing arguments (if any)
+                    'age': ageController.text,
+                  },
+                );
               },
               child: const Text('Next'),
             ),

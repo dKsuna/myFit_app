@@ -8,8 +8,9 @@ class HeightScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Map<String, dynamic> args =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    // Get the arguments passed from the previous screen, with a null check
+    final Map<String, dynamic>? args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
 
     return Scaffold(
       appBar: AppBar(title: const Text("Your height?")),
@@ -39,11 +40,16 @@ class HeightScreen extends StatelessWidget {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/goal', arguments: {
-                  ...args,
-                  'heightFeet': feetController.text,
-                  'heightInches': inchesController.text,
-                });
+                // Merge existing arguments with the new height data
+                Navigator.pushNamed(
+                  context,
+                  '/goal',
+                  arguments: {
+                    ...?args, // Spread the existing arguments (if any)
+                    'heightFeet': feetController.text,
+                    'heightInches': inchesController.text,
+                  },
+                );
               },
               child: const Text('Next'),
             ),

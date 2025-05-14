@@ -15,6 +15,7 @@ class _IssuesScreenState extends State<IssuesScreen> {
   Widget build(BuildContext context) {
     final Map<String, dynamic> args =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+
     return Scaffold(
       appBar: AppBar(title: const Text('Physical Issues')),
       body: ListView(
@@ -30,14 +31,30 @@ class _IssuesScreenState extends State<IssuesScreen> {
                     } else {
                       _selectedIssues.remove(issue);
                     }
+                    // If 'None' is selected, remove all other issues to indicate no issues
+                    if (issue == 'None' && val == true) {
+                      _selectedIssues.clear();
+                    }
                   });
                 },
               )),
           const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/days',
-                  arguments: {...args, 'issues': _selectedIssues});
+              // Ensure that we pass the selected issues list
+              Navigator.pushNamed(
+                context,
+                '/days',
+                arguments: {
+                  ...args,
+                  'issues': _selectedIssues.isEmpty ||
+                          _selectedIssues.contains('None')
+                      ? [
+                          'None'
+                        ] // If no issues are selected or 'None' is selected, pass 'None'
+                      : _selectedIssues,
+                },
+              );
             },
             child: const Text('Next'),
           )

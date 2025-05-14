@@ -12,8 +12,14 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final Map<String, dynamic> args =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    // Get the arguments passed from the previous screen, with a null check
+    final Map<String, dynamic>? args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+
+    // If arguments are not null and 'experience' is available, set it to _experienceLevel
+    if (args != null && args['experience'] != null) {
+      _experienceLevel = args['experience'];
+    }
 
     return Scaffold(
       appBar: AppBar(title: const Text('Experience Level')),
@@ -32,11 +38,18 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/issues',
-                    arguments: {...args, 'experience': _experienceLevel});
+                // Merge existing arguments with the new experience level
+                Navigator.pushNamed(
+                  context,
+                  '/issues',
+                  arguments: {
+                    ...?args, // Spread the existing arguments (if any)
+                    'experience': _experienceLevel
+                  },
+                );
               },
               child: const Text('Next'),
-            )
+            ),
           ],
         ),
       ),
