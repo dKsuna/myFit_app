@@ -19,9 +19,9 @@ class SummaryScreen extends StatelessWidget {
     final String? goal = args['goal'];
     final String? experience = args['experience'];
     final String? issues = args['issues'];
-    final List<String> workoutDays = List<String>.from(args['days'] ?? []);
+    final List<String> workoutDays = (args['days'] as String).split(',');
     final List<String> equipmentAccess =
-        List<String>.from(args['equipment'] ?? []);
+        (args['equipment'] as String).split(',');
 
     // Create User object if all necessary values are valid
     if (name != null &&

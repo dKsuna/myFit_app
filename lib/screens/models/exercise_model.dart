@@ -3,8 +3,9 @@ class Exercise {
   final String name;
   final String bodyPart;
   final String equipment;
-  final String category; // E.g. Full Body, Upper, Lower, etc.
+  final String category;
   final String description;
+  final List<String> physicalIssues;
 
   Exercise({
     required this.id,
@@ -13,6 +14,7 @@ class Exercise {
     required this.equipment,
     required this.category,
     required this.description,
+    this.physicalIssues = const [],
   });
 
   // Converts an Exercise object into a Map (for database insertion)
@@ -24,6 +26,7 @@ class Exercise {
       'equipment': equipment,
       'category': category,
       'description': description,
+      'physicalIssues': physicalIssues.join(','),
     };
   }
 
@@ -36,6 +39,7 @@ class Exercise {
       equipment: map['equipment'],
       category: map['category'],
       description: map['description'],
+      physicalIssues: (map['physicalIssues'] as String?)?.split(',') ?? [],
     );
   }
 
@@ -51,6 +55,14 @@ class Exercise {
       equipment: equipment,
       category: category,
       description: description,
+      physicalIssues: physicalIssues,
     );
   }
+
+  /// Static list of gym equipment types
+  static const List<String> gymEquipmentTypes = [
+    'Dumbbell',
+    'Barbell',
+    'Machine',
+  ];
 }

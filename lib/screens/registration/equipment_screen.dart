@@ -36,10 +36,7 @@ class _EquipmentScreenState extends State<EquipmentScreen> {
                 Navigator.pushNamed(
                   context,
                   '/summary',
-                  arguments: {
-                    ...args,
-                    'equipment': [_equipmentAccess] // Send as list
-                  },
+                  arguments: {...args, 'equipment': _equipmentAccess},
                 );
               },
               child: const Text('Next'),

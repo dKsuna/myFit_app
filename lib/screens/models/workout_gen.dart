@@ -1,9 +1,9 @@
-//import 'package:flutter/material.dart';
 import '../../database/db_helper.dart';
 import '../models/exercise_model.dart';
 import '../models/workout_model.dart';
+import '../../data/exercises.dart';
 
-Future<void> generateWorkoutPlan(int userId) async {
+Future<List<Workout>> generateWorkoutPlan(int userId) async {
   final dbHelper = DBHelper();
 
   // 1️⃣ Fetch user profile data
@@ -13,7 +13,7 @@ Future<void> generateWorkoutPlan(int userId) async {
   }
 
   // 2️⃣ Ensure required fields exist in the profile
-  if (!profile.containsKey('DaysForWorkout') || !profile.containsKey('Goal')) {
+  if (!profile.containsKey('daysForWorkout') || !profile.containsKey('goal')) {
     throw Exception('Missing necessary profile fields');
   }
 
@@ -22,13 +22,15 @@ Future<void> generateWorkoutPlan(int userId) async {
       await _getFilteredExercises(profile);
 
   // 4️⃣ Determine workout split type
-  final List<String> selectedDays = profile['DaysForWorkout'].split(',');
+  final List<String> selectedDays = profile['daysForWorkout'].split(',');
   final Map<String, List<String>> workoutSplit =
-      _determineWorkoutSplit(selectedDays.length, profile['Goal']);
+      _determineWorkoutSplit(selectedDays.length, profile['goal']);
 
   // 5️⃣ Categorize exercises based on workout split
   final Map<String, List<Exercise>> exercisePool = _categorizeExercises(
-      availableExercises, workoutSplit.values.expand((v) => v).toSet());
+    availableExercises,
+    workoutSplit.values.expand((v) => v).toSet(),
+  );
 
   // 6️⃣ Create weekly workout plan
   final List<Workout> weeklyPlan = [];
@@ -36,8 +38,15 @@ Future<void> generateWorkoutPlan(int userId) async {
   for (final day in selectedDays) {
     final String workoutType =
         workoutSplit['trainingDays']![selectedDays.indexOf(day)];
+
+    final pool = exercisePool[workoutType] ?? [];
+
+    if (pool.isEmpty) {
+      throw Exception('No exercises available for $workoutType day.');
+    }
+
     final List<Exercise> dayExercises =
-        _selectExercisesForDay(exercisePool[workoutType]!, profile['Goal']);
+        _selectExercisesForDay(pool, profile['goal']);
 
     weeklyPlan.add(
       Workout(
@@ -48,11 +57,7 @@ Future<void> generateWorkoutPlan(int userId) async {
       ),
     );
   }
-
-  // 7️⃣ Save workouts to the database
-  for (final workout in weeklyPlan) {
-    await dbHelper.insertWorkout(workout.toMap());
-  }
+  return weeklyPlan;
 }
 
 Map<String, List<String>> _determineWorkoutSplit(int totalDays, String goal) {
@@ -60,12 +65,38 @@ Map<String, List<String>> _determineWorkoutSplit(int totalDays, String goal) {
     'trainingDays': <String>[],
   };
 
-  if (totalDays <= 3) {
-    split['trainingDays'] = List.generate(totalDays, (_) => 'Full Body');
-  } else if (totalDays == 4) {
-    split['trainingDays'] = ['Upper', 'Lower', 'Upper', 'Lower'];
-  } else {
-    split['trainingDays'] = ['Push', 'Pull', 'Legs', 'Upper', 'Lower'];
+  switch (totalDays) {
+    case 1:
+      split['trainingDays'] = ['Full Body'];
+      break;
+    case 2:
+      split['trainingDays'] = ['Upper', 'Lower'];
+      break;
+    case 3:
+      split['trainingDays'] = ['Push', 'Pull', 'Legs'];
+      break;
+    case 4:
+      split['trainingDays'] = ['Upper', 'Lower', 'Push', 'Pull'];
+      break;
+    case 5:
+      split['trainingDays'] = ['Push', 'Pull', 'Legs', 'Upper', 'Lower'];
+      break;
+    case 6:
+      split['trainingDays'] = [
+        'Push',
+        'Pull',
+        'Legs',
+        'Upper',
+        'Lower',
+        'Full Body'
+      ];
+      break;
+    default:
+      // If user selects more than 6 days, just repeat Push/Pull/Legs
+      split['trainingDays'] = List.generate(
+        totalDays,
+        (index) => ['Push', 'Pull', 'Legs'][index % 3],
+      );
   }
 
   return split;
@@ -94,10 +125,15 @@ Map<String, List<Exercise>> _categorizeExercises(
   final categorized = <String, List<Exercise>>{};
 
   for (final category in requiredCategories) {
-    categorized[category] = exercises.where((exercise) {
+    final available = exercises.where((exercise) {
       return _muscleGroupMapping[category]?.contains(exercise.bodyPart) ??
           false;
     }).toList();
+
+    // Debug print exercise count per category
+    print('$category: ${available.length} exercises available.');
+
+    categorized[category] = available;
   }
 
   return categorized;
@@ -109,23 +145,35 @@ const _muscleGroupMapping = {
   'Lower': ['Legs', 'Glutes', 'Core'],
   'Push': ['Chest', 'Shoulders', 'Triceps'],
   'Pull': ['Back', 'Biceps', 'Rear Delts'],
-  'Legs': ['Quads', 'Hamstrings', 'Glutes', 'Calves'],
+  'Legs': ['Legs'],
 };
 
 Future<List<Exercise>> _getFilteredExercises(
     Map<String, dynamic> profile) async {
-  final dbHelper = DBHelper();
+  final equipmentString = profile['equipmentAvailable']?.toString() ?? '';
+  final physicalIssuesString = profile['physicalIssues']?.toString() ?? '';
 
-  // Parse the available equipment (split by commas and trim spaces)
-  final hasEquipment = profile['EquipmentAvailable'] != null
-      ? profile['EquipmentAvailable'].split(',').map((e) => e.trim()).toSet()
-      : {};
+  final hasEquipment = equipmentString
+      .split(',')
+      .map((e) => e.trim())
+      .where((e) => e.isNotEmpty)
+      .toSet();
 
-  final physicalIssues = profile['PhysicalIssues'] ?? '';
+  final physicalIssuesSet = physicalIssuesString
+      .split(',')
+      .map((e) => e.trim())
+      .where((e) => e.isNotEmpty)
+      .toSet();
 
-  // Fetch filtered exercises from the database
-  return await dbHelper.getFilteredExercises(
-    hasEquipment: hasEquipment.isNotEmpty,
-    physicalIssues: physicalIssues,
-  );
+  return allExercises.where((exercise) {
+    // Only include if user has equipment or exercise is bodyweight
+    final matchesEquipment = exercise.equipment == 'Bodyweight' ||
+        hasEquipment.contains(exercise.equipment);
+
+    // Exclude exercises that target user's physical issues
+    final hasIssue = exercise.physicalIssues
+        .any((issue) => physicalIssuesSet.contains(issue));
+
+    return matchesEquipment && !hasIssue;
+  }).toList();
 }

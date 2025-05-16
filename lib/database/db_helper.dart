@@ -17,71 +17,95 @@ class DBHelper {
 
   Future<Database> _initDatabase() async {
     String path = join(await getDatabasesPath(), 'myFit.db');
-    return openDatabase(path, onCreate: (db, version) async {
-      // Create Users table
-      await db.execute('''
-        CREATE TABLE Users (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          name TEXT,
-          age INTEGER,
-          gender TEXT,
-          weight INTEGER,
-          goal TEXT,
-          daysForWorkout TEXT,
-          equipmentAvailable INTEGER,
-          physicalIssues TEXT
-        );
-      ''');
+    return openDatabase(
+      path,
+      version: 2, // bump version to trigger onUpgrade
+      onCreate: (db, version) async {
+        print('Database created!');
+        await _createTables(db);
+      },
+      onUpgrade: (db, oldVersion, newVersion) async {
+        if (oldVersion < 3) {
+          // Drop all existing tables
+          await db.execute('DROP TABLE IF EXISTS Users');
+          await db.execute('DROP TABLE IF EXISTS ProgressLog');
+          await db.execute('DROP TABLE IF EXISTS Routine');
+          await db.execute('DROP TABLE IF EXISTS Workouts');
+          await db.execute('DROP TABLE IF EXISTS Exercises');
 
-      // Create ProgressLog table
-      await db.execute('''
-        CREATE TABLE ProgressLog (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          userId INTEGER,
-          dateStarted TEXT,
-          logDate TEXT,
-          weight REAL,
-          chest REAL,
-          waist REAL,
-          arms REAL,
-          FOREIGN KEY (userId) REFERENCES Users(id)
-        );
-      ''');
+          // Recreate tables
+          await _createTables(db);
+        }
+      },
+    );
+  }
 
-      // Create Routine table
-      await db.execute('''
-        CREATE TABLE Routine (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          userId INTEGER,
-          dateStarted TEXT,
-          routineData TEXT,
-          FOREIGN KEY (userId) REFERENCES Users(id)
-        );
-      ''');
+  Future<void> _createTables(Database db) async {
+    await db.execute('''
+      CREATE TABLE Users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT,
+        age INTEGER,
+        gender TEXT,
+        height TEXT,
+        weight INTEGER,
+        goal TEXT,
+        experienceLevel TEXT,
+        daysForWorkout TEXT,
+        equipmentAvailable TEXT,
+        physicalIssues TEXT
+      );
+    ''');
 
-      // Create Workouts table
-      await db.execute('''
-        CREATE TABLE Workouts (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          userId INTEGER,
-          workoutName TEXT,
-          duration INTEGER,
-          date TEXT,
-          FOREIGN KEY (userId) REFERENCES Users(id)
-        );
-      ''');
+    await db.execute('''
+      CREATE TABLE ProgressLog (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        userId INTEGER,
+        dateStarted TEXT,
+        logDate TEXT,
+        weight REAL,
+        chest REAL,
+        waist REAL,
+        arms REAL,
+        FOREIGN KEY (userId) REFERENCES Users(id)
+      );
+    ''');
 
-      // Create Exercises table
-      await db.execute('''
-        CREATE TABLE Exercises (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          name TEXT,
-          description TEXT,
-          equipmentRequired TEXT,
-          physicalIssues TEXT
-        );
-      ''');
-    }, version: 1);
+    await db.execute('''
+      CREATE TABLE Routine (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        userId INTEGER,
+        dateStarted TEXT,
+        routineData TEXT,
+        FOREIGN KEY (userId) REFERENCES Users(id)
+      );
+    ''');
+
+    await db.execute('''
+      CREATE TABLE Workouts (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        userId INTEGER,
+        workoutName TEXT,
+        duration INTEGER,
+        date TEXT,
+        day TEXT,
+        type TEXT,
+        exercises TEXT,
+        FOREIGN KEY (userId) REFERENCES Users(id)
+      );
+    ''');
+
+    await db.execute('''
+      CREATE TABLE Exercises (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT,
+        description TEXT,
+        bodyPart TEXT,
+        equipment TEXT,
+        category TEXT,
+        physicalIssues TEXT
+      );
+    ''');
   }
 
   // Insert a new User into the Users table
@@ -91,8 +115,7 @@ class DBHelper {
       return await db.insert(
         'Users',
         user,
-        conflictAlgorithm:
-            ConflictAlgorithm.replace, // Replace if the user already exists
+        conflictAlgorithm: ConflictAlgorithm.replace,
       );
     } catch (e) {
       print("Error inserting user: $e");
@@ -175,27 +198,31 @@ class DBHelper {
     );
 
     if (result.isNotEmpty) {
-      return result.first; // Return the first matching user
+      return result.first;
     } else {
-      return null; // Return null if no user is found
+      return null;
     }
   }
 
   // Get filtered exercises based on equipment and physical issues
+/*
   Future<List<Exercise>> getFilteredExercises({
-    required bool hasEquipment,
+    required List<String> availableEquipment,
     required String physicalIssues,
   }) async {
     final db = await database;
+    final placeholders = List.filled(availableEquipment.length, '?').join(',');
+
     final List<Map<String, dynamic>> result = await db.query(
       'Exercises',
       where:
-          'equipmentRequired = ? AND (physicalIssues LIKE ? OR physicalIssues IS NULL)',
-      whereArgs: [hasEquipment ? '1' : '0', '%$physicalIssues%'],
+          'equipment IN ($placeholders) AND (physicalIssues LIKE ? OR physicalIssues IS NULL OR physicalIssues = "")',
+      whereArgs: [...availableEquipment, '%$physicalIssues%'],
     );
 
     return List.generate(result.length, (i) {
       return Exercise.fromMap(result[i]);
     });
   }
+  */
 }

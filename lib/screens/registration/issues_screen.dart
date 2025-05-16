@@ -49,10 +49,8 @@ class _IssuesScreenState extends State<IssuesScreen> {
                   ...args,
                   'issues': _selectedIssues.isEmpty ||
                           _selectedIssues.contains('None')
-                      ? [
-                          'None'
-                        ] // If no issues are selected or 'None' is selected, pass 'None'
-                      : _selectedIssues,
+                      ? 'None'
+                      : _selectedIssues.join(','),
                 },
               );
             },

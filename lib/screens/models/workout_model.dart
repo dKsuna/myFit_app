@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'exercise_model.dart';
 
 class Workout {
@@ -19,19 +20,21 @@ class Workout {
       'userId': userId,
       'day': day,
       'type': type,
-      'exercises': exercises.map((e) => e.toMap()).toList(),
+      // Encode exercises list as JSON string
+      'exercises': jsonEncode(exercises.map((e) => e.toMap()).toList()),
     };
   }
 
   // Creates a Workout object from a Map (for fetching from the database)
   factory Workout.fromMap(Map<String, dynamic> map) {
+    final exercisesJson = map['exercises'] as String? ?? '[]';
+    final List<dynamic> exercisesList = jsonDecode(exercisesJson);
+
     return Workout(
       userId: map['userId'],
       day: map['day'],
       type: map['type'],
-      exercises: List<Exercise>.from(
-        map['exercises']?.map((e) => Exercise.fromMap(e)) ?? [],
-      ),
+      exercises: exercisesList.map((e) => Exercise.fromMap(e)).toList(),
     );
   }
 }

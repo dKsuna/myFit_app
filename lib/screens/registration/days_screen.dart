@@ -42,8 +42,8 @@ class _DaysScreenState extends State<DaysScreen> {
                 '/equipment', // Navigating to the EquipmentScreen
                 arguments: {
                   ...args,
-                  'days':
-                      _selectedDays // Passing the selected days as a simple list
+                  'days': _selectedDays
+                      .join(','), // Passing the selected days as a simple list
                 },
               );
             },
