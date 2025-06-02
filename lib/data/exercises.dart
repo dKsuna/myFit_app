@@ -13,6 +13,8 @@ final List<Exercise> allExercises = [
     physicalIssues: [],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 2,
@@ -26,6 +28,8 @@ final List<Exercise> allExercises = [
     physicalIssues: [],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Beginner', 'Intermediate'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 3,
@@ -39,6 +43,8 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Knee', 'Back'],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Beginner', 'Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 4,
@@ -52,6 +58,8 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Back'],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Beginner', 'Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 5,
@@ -64,6 +72,8 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Back'],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Beginner', 'Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 6,
@@ -76,6 +86,8 @@ final List<Exercise> allExercises = [
     physicalIssues: [],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Beginner', 'Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 7,
@@ -88,6 +100,8 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Back'],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Beginner', 'Intermediate'],
+    goals: ['lose', 'maintain'],
   ),
   Exercise(
     id: 8,
@@ -101,6 +115,7 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Knee'],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Beginner', 'Intermediate'],
   ),
   Exercise(
     id: 9,
@@ -113,6 +128,8 @@ final List<Exercise> allExercises = [
     physicalIssues: [],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Beginner', 'Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 10,
@@ -125,6 +142,8 @@ final List<Exercise> allExercises = [
     physicalIssues: [],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Beginner', 'Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 11,
@@ -137,6 +156,8 @@ final List<Exercise> allExercises = [
     physicalIssues: [],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 12,
@@ -149,6 +170,8 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Knee', 'Back'],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 13,
@@ -161,6 +184,8 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Back'],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 14,
@@ -173,6 +198,8 @@ final List<Exercise> allExercises = [
     physicalIssues: [],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Beginner', 'Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 15,
@@ -185,6 +212,8 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Back'],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Beginner', 'Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 16,
@@ -197,6 +226,8 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Back'],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Beginner', 'Intermediate', 'Advanced'],
+    goals: ['lose', 'maintain'],
   ),
   Exercise(
     id: 17,
@@ -209,6 +240,8 @@ final List<Exercise> allExercises = [
     physicalIssues: [],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 18,
@@ -221,6 +254,8 @@ final List<Exercise> allExercises = [
     physicalIssues: [],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Beginner', 'Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 19,
@@ -233,6 +268,8 @@ final List<Exercise> allExercises = [
     physicalIssues: [],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Beginner', 'Intermediate', 'Advanced'],
+    goals: ['lose', 'maintain'],
   ),
   Exercise(
     id: 20,
@@ -245,6 +282,8 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Knee'],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Beginner', 'Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
 
   Exercise(
@@ -259,6 +298,8 @@ final List<Exercise> allExercises = [
     physicalIssues: [],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 22,
@@ -271,6 +312,8 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Knee', 'Back'],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 23,
@@ -283,6 +326,8 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Knee'],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Beginner', 'Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 24,
@@ -295,6 +340,8 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Knee'],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Beginner', 'Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 25,
@@ -307,6 +354,8 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Back'],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Beginner', 'Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 26,
@@ -319,6 +368,8 @@ final List<Exercise> allExercises = [
     physicalIssues: [],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 27,
@@ -331,6 +382,8 @@ final List<Exercise> allExercises = [
     physicalIssues: [],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 28,
@@ -343,6 +396,8 @@ final List<Exercise> allExercises = [
     physicalIssues: [],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Beginner', 'Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 29,
@@ -355,6 +410,8 @@ final List<Exercise> allExercises = [
     physicalIssues: [],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 30,
@@ -367,6 +424,8 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Back'],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Beginner', 'Intermediate'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 31,
@@ -380,6 +439,8 @@ final List<Exercise> allExercises = [
     physicalIssues: [],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Beginner', 'Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 32,
@@ -393,6 +454,8 @@ final List<Exercise> allExercises = [
     physicalIssues: [],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 33,
@@ -406,6 +469,8 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Back'],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Beginner', 'Intermediate'],
+    goals: ['lose', 'maintain'],
   ),
   Exercise(
     id: 34,
@@ -418,11 +483,13 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Back'],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Beginner', 'Intermediate', 'Advanced'],
+    goals: ['lose', 'maintain'],
   ),
   Exercise(
     id: 35,
     name: 'Barbell Overhead Press',
-    gender: 'Male',
+    gender: 'Any',
     bodyPart: 'Shoulders',
     equipment: 'Barbell',
     category: 'Upper',
@@ -430,6 +497,8 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Back'],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 36,
@@ -442,6 +511,8 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Back'],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Beginner', 'Intermediate'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 37,
@@ -454,6 +525,8 @@ final List<Exercise> allExercises = [
     physicalIssues: [],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Beginner', 'Intermediate'],
+    goals: ['lose', 'maintain'],
   ),
   Exercise(
     id: 38,
@@ -467,6 +540,8 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Back', 'Knee'],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 39,
@@ -479,6 +554,8 @@ final List<Exercise> allExercises = [
     physicalIssues: [],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Beginner', 'Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 40,
@@ -491,6 +568,8 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Knee'],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Beginner'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
 
   Exercise(
@@ -504,11 +583,13 @@ final List<Exercise> allExercises = [
     physicalIssues: [],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Beginner', 'Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 42,
     name: 'Standing Calf Raise',
-    gender: 'Male',
+    gender: 'Any',
     bodyPart: 'Legs',
     equipment: 'Bodyweight',
     category: 'Lower',
@@ -516,6 +597,8 @@ final List<Exercise> allExercises = [
     physicalIssues: [],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Beginner', 'Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 43,
@@ -528,11 +611,13 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Shoulder'],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 44,
     name: 'Machine Chest Dip',
-    gender: 'Female',
+    gender: 'Any',
     bodyPart: 'Chest',
     equipment: 'Machine',
     category: 'Upper',
@@ -540,6 +625,8 @@ final List<Exercise> allExercises = [
     physicalIssues: [],
     minAge: 18,
     maxAge: 55,
+    experienceLevel: ['Beginner', 'Intermediate'],
+    goals: ['gain', 'maintain'],
   ),
   Exercise(
     id: 45,
@@ -552,6 +639,8 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Back'],
     minAge: 18,
     maxAge: 50,
+    experienceLevel: ['Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 46,
@@ -564,6 +653,8 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Knee'],
     minAge: 15,
     maxAge: 55,
+    experienceLevel: ['Beginner'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 47,
@@ -576,6 +667,8 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Back'],
     minAge: 16,
     maxAge: 55,
+    experienceLevel: ['Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 48,
@@ -588,6 +681,8 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Back'],
     minAge: 18,
     maxAge: 45,
+    experienceLevel: ['Beginner'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 49,
@@ -600,6 +695,8 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Knee'],
     minAge: 16,
     maxAge: 55,
+    experienceLevel: ['Beginner', 'Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 50,
@@ -612,6 +709,8 @@ final List<Exercise> allExercises = [
     physicalIssues: [],
     minAge: 16,
     maxAge: 50,
+    experienceLevel: ['Beginner', 'Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 51,
@@ -625,6 +724,8 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Shoulder'],
     minAge: 18,
     maxAge: 50,
+    experienceLevel: ['Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 52,
@@ -637,6 +738,8 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Back'],
     minAge: 14,
     maxAge: 60,
+    experienceLevel: ['Beginner', 'Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 53,
@@ -649,6 +752,8 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Shoulder'],
     minAge: 16,
     maxAge: 60,
+    experienceLevel: ['Beginner', 'Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 54,
@@ -662,6 +767,8 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Knee'],
     minAge: 15,
     maxAge: 55,
+    experienceLevel: ['Beginner', 'Intermediate'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 55,
@@ -675,6 +782,8 @@ final List<Exercise> allExercises = [
     physicalIssues: [],
     minAge: 16,
     maxAge: 50,
+    experienceLevel: ['Beginner', 'Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 56,
@@ -687,6 +796,8 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Shoulder'],
     minAge: 18,
     maxAge: 50,
+    experienceLevel: ['Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 57,
@@ -700,6 +811,8 @@ final List<Exercise> allExercises = [
     physicalIssues: [],
     minAge: 14,
     maxAge: 40,
+    experienceLevel: ['Beginner', 'Intermediate'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 58,
@@ -712,6 +825,8 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Back'],
     minAge: 18,
     maxAge: 50,
+    experienceLevel: ['Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 59,
@@ -724,6 +839,8 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Shoulder'],
     minAge: 18,
     maxAge: 50,
+    experienceLevel: ['Beginner', 'Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 60,
@@ -737,6 +854,8 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Back'],
     minAge: 14,
     maxAge: 55,
+    experienceLevel: ['Beginner'],
+    goals: ['lose', 'maintain'],
   ),
   Exercise(
     id: 61,
@@ -750,6 +869,8 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Shoulder'],
     minAge: 14,
     maxAge: 50,
+    experienceLevel: ['Intermediate'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 62,
@@ -763,6 +884,8 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Shoulder'],
     minAge: 16,
     maxAge: 50,
+    experienceLevel: ['Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 63,
@@ -776,6 +899,8 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Wrist'],
     minAge: 16,
     maxAge: 50,
+    experienceLevel: ['Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
 
 // Pull (Back, Biceps)
@@ -790,6 +915,8 @@ final List<Exercise> allExercises = [
     physicalIssues: [],
     minAge: 14,
     maxAge: 60,
+    experienceLevel: ['Beginner', 'Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 65,
@@ -802,6 +929,8 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Back'],
     minAge: 16,
     maxAge: 50,
+    experienceLevel: ['Beginner', 'Intermediate'],
+    goals: ['lose', 'maintain'],
   ),
   Exercise(
     id: 66,
@@ -814,6 +943,8 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Shoulder'],
     minAge: 18,
     maxAge: 50,
+    experienceLevel: ['Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 67,
@@ -826,19 +957,10 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Knee'],
     minAge: 16,
     maxAge: 50,
+    experienceLevel: ['Beginner', 'Intermediate'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
-  Exercise(
-    id: 68,
-    name: 'Mountain Climbers',
-    gender: 'Any',
-    bodyPart: 'Full Body',
-    equipment: 'Bodyweight',
-    category: 'Full Body',
-    description: 'High-intensity, full-body cardio and core exercise.',
-    physicalIssues: ['Back'],
-    minAge: 16,
-    maxAge: 45,
-  ),
+
   Exercise(
     id: 69,
     name: 'Seated Cable Row',
@@ -850,18 +972,8 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Back'],
     minAge: 18,
     maxAge: 55,
-  ),
-  Exercise(
-    id: 70,
-    name: 'Hammer Curl',
-    gender: 'Any',
-    bodyPart: 'Arms',
-    equipment: 'Dumbbell',
-    category: 'Upper',
-    description: 'Bicep curl variation with a neutral grip.',
-    physicalIssues: [],
-    minAge: 16,
-    maxAge: 55,
+    experienceLevel: ['Beginner', 'Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
 
   // Push (Chest, Shoulders, Triceps)
@@ -877,6 +989,8 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Shoulder'],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 72,
@@ -889,6 +1003,8 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Shoulder'],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 73,
@@ -902,6 +1018,8 @@ final List<Exercise> allExercises = [
     physicalIssues: [],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 74,
@@ -914,6 +1032,8 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Wrist'],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
 
 // Pull (Back, Biceps)
@@ -929,6 +1049,8 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Back'],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 76,
@@ -942,6 +1064,8 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Back'],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Beginner', 'Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 77,
@@ -954,6 +1078,8 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Back'],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Beginner', 'Intermediate'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 78,
@@ -966,6 +1092,8 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Back'],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Advanced'],
+    goals: ['maintain'],
   ),
   Exercise(
     id: 79,
@@ -978,6 +1106,8 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Back'],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Beginner', 'Intermediate'],
+    goals: ['maintain'],
   ),
   Exercise(
     id: 80,
@@ -991,5 +1121,7 @@ final List<Exercise> allExercises = [
     physicalIssues: ['Back'],
     minAge: 18,
     maxAge: 60,
+    experienceLevel: ['Intermediate', 'Advanced'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
 ];

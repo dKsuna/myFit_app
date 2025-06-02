@@ -104,22 +104,65 @@ Map<String, List<String>> _determineWorkoutSplit(int totalDays, String goal) {
 }
 
 List<Exercise> _selectExercisesForDay(List<Exercise> pool, String goal) {
-  const goalPresets = {
+  const basePresets = {
     'strength': {'count': 4, 'sets': 4, 'reps': '4-6'},
     'hypertrophy': {'count': 6, 'sets': 3, 'reps': '8-12'},
     'endurance': {'count': 8, 'sets': 2, 'reps': '15-20'},
   };
 
-  final preset = goalPresets[goal.toLowerCase()] ?? goalPresets['hypertrophy']!;
+  final preset = basePresets[goal.toLowerCase()] ?? basePresets['hypertrophy']!;
 
   final shuffled = List.of(pool)..shuffle();
 
   return shuffled.take(preset['count'] as int).map((exercise) {
+    int sets = preset['sets'] as int;
+    String reps = preset['reps'] as String;
+
+    // Adjust sets and reps based on exercise's goals and user's goal
+    if (!exercise.goals.contains(goal)) {
+      // If exercise isn't specifically for user's goal, adjust based on goal type
+      switch (goal.toLowerCase()) {
+        case 'lose weight':
+          sets += 1;
+          reps = adjustReps(reps, increase: true);
+          break;
+        case 'gain weight':
+          sets -= 1;
+          reps = adjustReps(reps, increase: true);
+          break;
+        case 'maintain weight':
+          sets -= 1;
+          reps = adjustReps(reps, increase: false);
+          break;
+      }
+    }
+
     return exercise.copyWith(
-      sets: preset['sets'] as int,
-      reps: preset['reps'] as String,
+      sets: sets,
+      reps: reps,
     );
   }).toList();
+}
+
+String adjustReps(String reps, {required bool increase}) {
+  final parts = reps.split('-').map((e) => int.tryParse(e.trim())).toList();
+
+  if (parts.length != 2 || parts.contains(null)) {
+    return reps; // if invalid format, return as-is
+  }
+
+  int min = parts[0]!;
+  int max = parts[1]!;
+
+  if (increase) {
+    min += 2;
+    max += 2;
+  } else {
+    min = (min - 1).clamp(1, 100);
+    max = (max - 1).clamp(1, 100);
+  }
+
+  return '$min-$max';
 }
 
 Map<String, List<Exercise>> _categorizeExercises(
@@ -155,7 +198,9 @@ Future<List<Exercise>> _getFilteredExercises(
   final equipmentString = profile['equipmentAvailable']?.toString() ?? '';
   final physicalIssuesString = profile['physicalIssues']?.toString() ?? '';
   final String gender = profile['gender'] ?? 'Any';
-  final int age = int.tryParse(profile['age'].toString()) ?? 25;
+  final int age = int.tryParse(profile['age'].toString()) ?? 21;
+  final String experienceLevel = profile['experienceLevel'] ?? 'Beginner';
+  final String goal = profile['goals'] ?? 'maintain';
 
   final hasEquipment = equipmentString
       .split(',')
@@ -181,11 +226,22 @@ Future<List<Exercise>> _getFilteredExercises(
 
     final matchesGender = exercise.gender == 'Any' || exercise.gender == gender;
     final ageAppropriate = exercise.isAgeAppropriate(age);
+    final matchesExperience =
+        exercise.experienceLevel.contains(experienceLevel);
+    final goalMatches = exercise.goals.isEmpty || exercise.goals.contains(goal);
 
     //debug
     print('Available equipment: $hasEquipment');
+    print(
+        'Exercise: ${exercise.name} | Experience Levels: ${exercise.experienceLevel} | User: $experienceLevel');
+
     //print('Exercises filtered: ${.map((e) => e.name)}');
 
-    return matchesEquipment && !hasIssue && matchesGender && ageAppropriate;
+    return matchesEquipment &&
+        !hasIssue &&
+        matchesGender &&
+        ageAppropriate &&
+        matchesExperience &&
+        goalMatches;
   }).toList();
 }

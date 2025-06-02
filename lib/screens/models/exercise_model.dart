@@ -11,6 +11,8 @@ class Exercise {
   final String? reps;
   final int minAge;
   final int maxAge;
+  final List<String> experienceLevel;
+  final List<String> goals;
 
   bool isAgeAppropriate(int age) {
     return age >= minAge && age <= maxAge;
@@ -29,6 +31,8 @@ class Exercise {
     this.reps,
     required this.minAge,
     required this.maxAge,
+    this.experienceLevel = const [],
+    this.goals = const [],
   });
 
   // Converts an Exercise object into a Map (for database insertion)
@@ -46,6 +50,8 @@ class Exercise {
       'reps': reps,
       'minAge': minAge,
       'maxAge': maxAge,
+      'experienceLevel': experienceLevel.join(','),
+      'goals': goals.join(','),
     };
   }
 
@@ -64,6 +70,8 @@ class Exercise {
       reps: map['reps'],
       minAge: map['minAge'],
       maxAge: map['maxAge'],
+      experienceLevel: (map['experienceLevel'] as String?)?.split(',') ?? [],
+      goals: (map['goals'] as String?)?.split(',') ?? [],
     );
   }
 
@@ -85,6 +93,8 @@ class Exercise {
       reps: reps,
       minAge: minAge,
       maxAge: maxAge,
+      experienceLevel: experienceLevel,
+      goals: goals,
     );
   }
 

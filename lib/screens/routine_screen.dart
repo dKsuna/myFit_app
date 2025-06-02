@@ -67,9 +67,14 @@ class _RoutineScreenState extends State<RoutineScreen> {
                             width: double.maxFinite,
                             child: ListView(
                               shrinkWrap: true,
-                              children: workout.exercises
-                                  .map((e) => ListTile(title: Text(e.name)))
-                                  .toList(),
+                              children: workout.exercises.map((e) {
+                                return ListTile(
+                                  title: Text(e.name),
+                                  subtitle: Text(
+                                    'Sets: ${e.sets ?? '-'} | Reps: ${e.reps ?? '-'}',
+                                  ),
+                                );
+                              }).toList(),
                             ),
                           ),
                         ),
