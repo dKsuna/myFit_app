@@ -155,7 +155,8 @@ Future<List<Exercise>> _getFilteredExercises(
   final equipmentString = profile['equipmentAvailable']?.toString() ?? '';
   final physicalIssuesString = profile['physicalIssues']?.toString() ?? '';
   final String gender = profile['gender'] ?? 'Any';
-  final int age = int.tryParse(profile['age'].toString()) ?? 25;
+  final int age = int.tryParse(profile['age'].toString()) ?? 21;
+  final String experienceLevel = profile['experienceLevel'] ?? 'Beginner';
 
   final hasEquipment = equipmentString
       .split(',')
@@ -181,11 +182,14 @@ Future<List<Exercise>> _getFilteredExercises(
 
     final matchesGender = exercise.gender == 'Any' || exercise.gender == gender;
     final ageAppropriate = exercise.isAgeAppropriate(age);
+    final matchesExperience = exercise.experienceLevel.contains(experienceLevel.toLowerCase());
 
     //debug
     print('Available equipment: $hasEquipment');
+    print('Exercise: ${exercise.name} | Experience Levels: ${exercise.experienceLevel} | User: $experienceLevel');
+
     //print('Exercises filtered: ${.map((e) => e.name)}');
 
-    return matchesEquipment && !hasIssue && matchesGender && ageAppropriate;
+    return matchesEquipment && !hasIssue && matchesGender && ageAppropriate && matchesExperience;
   }).toList();
 }

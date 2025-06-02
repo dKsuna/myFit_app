@@ -1,0 +1,2 @@
+Z:/new_myFit/myFit_app/android/app/.cxx/Debug/56551w69/x86_64/CMakeFiles/edit_cache.dir
+Z:/new_myFit/myFit_app/android/app/.cxx/Debug/56551w69/x86_64/CMakeFiles/rebuild_cache.dir
