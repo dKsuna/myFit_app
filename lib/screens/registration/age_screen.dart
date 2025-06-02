@@ -7,12 +7,11 @@ class AgeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Safely get the arguments from the previous screen
     final Map<String, dynamic>? args =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
 
     return Scaffold(
-      appBar: AppBar(title: const Text("What's your age?")),
+      appBar: AppBar(title: const Text("Enter your Age")),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -25,15 +24,44 @@ class AgeScreen extends StatelessWidget {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // Merge existing arguments with the new age data
-                Navigator.pushNamed(
-                  context,
-                  '/weight',
-                  arguments: {
-                    ...?args, // Spread the existing arguments (if any)
-                    'age': ageController.text,
-                  },
-                );
+                String ageText = ageController.text.trim();
+
+                if (ageText.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Please enter an age.'),
+                      duration: Duration(seconds: 2),
+                    ),
+                  );
+                } else {
+                  int? age = int.tryParse(ageText);
+
+                  if (age == null) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Please enter a valid number.'),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  } else if (age <= 13 || age >= 90) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content:
+                            Text('Age not valid. Please enter a valid age.'),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                  } else {
+                    Navigator.pushNamed(
+                      context,
+                      '/gender',
+                      arguments: {
+                        ...?args,
+                        'age': ageText,
+                      },
+                    );
+                  }
+                }
               },
               child: const Text('Next'),
             ),

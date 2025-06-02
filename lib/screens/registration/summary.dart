@@ -13,6 +13,7 @@ class SummaryScreen extends StatelessWidget {
     // Validate the arguments
     final String? name = args['name'];
     final String? age = args['age'];
+    final String? gender = args['gender'];
     final String? weight = args['weight'];
     final String? heightFeet = args['heightFeet'];
     final String? heightInches = args['heightInches'];
@@ -26,6 +27,7 @@ class SummaryScreen extends StatelessWidget {
     // Create User object if all necessary values are valid
     if (name != null &&
         age != null &&
+        gender != null &&
         weight != null &&
         heightFeet != null &&
         heightInches != null &&
@@ -34,6 +36,7 @@ class SummaryScreen extends StatelessWidget {
       final user = User(
         name: name,
         age: int.parse(age),
+        gender: gender,
         weightKg: double.parse(weight),
         heightFeet: int.parse(heightFeet),
         heightInches: int.parse(heightInches),
@@ -55,6 +58,11 @@ class SummaryScreen extends StatelessWidget {
                 style: TextStyle(fontSize: 24),
               ),
               const SizedBox(height: 20),
+              /*
+              Text('Gender: $gender',
+                  style: const TextStyle(fontSize: 18)), // ⬅️ Display it
+              const SizedBox(height: 20),
+              */
               ElevatedButton(
                 onPressed: () {
                   Navigator.pushNamed(

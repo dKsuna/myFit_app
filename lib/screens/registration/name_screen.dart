@@ -20,9 +20,18 @@ class NameScreen extends StatelessWidget {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/age', arguments: {
-                  'name': nameController.text,
-                });
+                if (nameController.text.trim().isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Please enter a name.'),
+                      duration: Duration(seconds: 2),
+                    ),
+                  );
+                } else {
+                  Navigator.pushNamed(context, '/age', arguments: {
+                    'name': nameController.text,
+                  });
+                }
               },
               child: const Text('Next'),
             ),

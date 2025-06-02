@@ -1,7 +1,7 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-import '../screens/models/exercise_model.dart';
-import '../screens/models/workout_model.dart';
+//import '../screens/models/exercise_model.dart';
+//import '../screens/models/workout_model.dart';
 
 class DBHelper {
   static Database? _database;
@@ -19,7 +19,7 @@ class DBHelper {
     String path = join(await getDatabasesPath(), 'myFit.db');
     return openDatabase(
       path,
-      version: 2, // bump version to trigger onUpgrade
+      version: 3, // bump version to trigger onUpgrade
       onCreate: (db, version) async {
         print('Database created!');
         await _createTables(db);
@@ -63,6 +63,7 @@ class DBHelper {
         userId INTEGER,
         dateStarted TEXT,
         logDate TEXT,
+        gender TEXT,
         weight REAL,
         chest REAL,
         waist REAL,
@@ -99,11 +100,14 @@ class DBHelper {
       CREATE TABLE Exercises (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT,
+        gender TEXT,
         description TEXT,
         bodyPart TEXT,
         equipment TEXT,
         category TEXT,
-        physicalIssues TEXT
+        physicalIssues TEXT,
+        sets INTEGER,
+        reps TEXT
       );
     ''');
   }
@@ -203,26 +207,4 @@ class DBHelper {
       return null;
     }
   }
-
-  // Get filtered exercises based on equipment and physical issues
-/*
-  Future<List<Exercise>> getFilteredExercises({
-    required List<String> availableEquipment,
-    required String physicalIssues,
-  }) async {
-    final db = await database;
-    final placeholders = List.filled(availableEquipment.length, '?').join(',');
-
-    final List<Map<String, dynamic>> result = await db.query(
-      'Exercises',
-      where:
-          'equipment IN ($placeholders) AND (physicalIssues LIKE ? OR physicalIssues IS NULL OR physicalIssues = "")',
-      whereArgs: [...availableEquipment, '%$physicalIssues%'],
-    );
-
-    return List.generate(result.length, (i) {
-      return Exercise.fromMap(result[i]);
-    });
-  }
-  */
 }

@@ -2,6 +2,7 @@ class User {
   final int? id;
   final String name;
   final int age;
+  final String gender;
   final double weightKg;
   final int heightFeet;
   final int heightInches;
@@ -17,6 +18,7 @@ class User {
     this.id,
     required this.name,
     required this.age,
+    required this.gender,
     required this.weightKg,
     required this.heightFeet,
     required this.heightInches,
@@ -37,6 +39,7 @@ class User {
       id: map['id'],
       name: map['name'],
       age: map['age'],
+      gender: map['gender'],
       weightKg: map['weightKg'],
       heightFeet: map['heightFeet'],
       heightInches: map['heightInches'],
@@ -54,6 +57,7 @@ class User {
       'id': id,
       'name': name,
       'age': age,
+      'gender': gender,
       'weightKg': weightKg,
       'heightFeet': heightFeet,
       'heightInches': heightInches,

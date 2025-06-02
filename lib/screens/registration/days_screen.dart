@@ -37,15 +37,22 @@ class _DaysScreenState extends State<DaysScreen> {
           const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
-              Navigator.pushNamed(
-                context,
-                '/equipment', // Navigating to the EquipmentScreen
-                arguments: {
-                  ...args,
-                  'days': _selectedDays
-                      .join(','), // Passing the selected days as a simple list
-                },
-              );
+              if (_selectedDays.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text('Select your working out days.'),
+                  duration: Duration(seconds: 2),
+                ));
+              } else {
+                Navigator.pushNamed(
+                  context,
+                  '/equipment', // Navigating to the EquipmentScreen
+                  arguments: {
+                    ...args,
+                    'days': _selectedDays.join(
+                        ','), // Passing the selected days as a simple list
+                  },
+                );
+              }
             },
             child: const Text('Next'),
           )

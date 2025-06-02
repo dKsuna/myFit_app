@@ -12,6 +12,7 @@ import 'screens/registration/equipment_screen.dart';
 import 'screens/registration/summary.dart';
 import 'screens/models/user_model.dart';
 import 'package:myfit/screens/main_screen.dart';
+import 'screens/registration/gender_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => NameScreen(),
         '/age': (context) => AgeScreen(),
+        '/gender': (context) => const GenderScreen(),
         '/weight': (context) => WeightScreen(),
         '/height': (context) => HeightScreen(),
         '/goal': (context) => GoalScreen(),

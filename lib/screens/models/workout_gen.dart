@@ -12,6 +12,7 @@ Future<List<Workout>> generateWorkoutPlan(int userId) async {
     throw Exception('User not found');
   }
 
+  final String gender = profile['gender'] ?? 'Any';
   // 2️⃣ Ensure required fields exist in the profile
   if (!profile.containsKey('daysForWorkout') || !profile.containsKey('goal')) {
     throw Exception('Missing necessary profile fields');
@@ -110,6 +111,7 @@ List<Exercise> _selectExercisesForDay(List<Exercise> pool, String goal) {
   };
 
   final preset = goalPresets[goal.toLowerCase()] ?? goalPresets['hypertrophy']!;
+
   final shuffled = List.of(pool)..shuffle();
 
   return shuffled.take(preset['count'] as int).map((exercise) {
@@ -152,10 +154,12 @@ Future<List<Exercise>> _getFilteredExercises(
     Map<String, dynamic> profile) async {
   final equipmentString = profile['equipmentAvailable']?.toString() ?? '';
   final physicalIssuesString = profile['physicalIssues']?.toString() ?? '';
+  final String gender = profile['gender'] ?? 'Any';
+  final int age = int.tryParse(profile['age'].toString()) ?? 25;
 
   final hasEquipment = equipmentString
       .split(',')
-      .map((e) => e.trim())
+      .map((e) => e.trim().toLowerCase())
       .where((e) => e.isNotEmpty)
       .toSet();
 
@@ -167,13 +171,21 @@ Future<List<Exercise>> _getFilteredExercises(
 
   return allExercises.where((exercise) {
     // Only include if user has equipment or exercise is bodyweight
-    final matchesEquipment = exercise.equipment == 'Bodyweight' ||
-        hasEquipment.contains(exercise.equipment);
+    final matchesEquipment = exercise.equipment.toLowerCase() == 'Bodyweight' ||
+        hasEquipment.contains(exercise.equipment.toLowerCase()) ||
+        hasEquipment.contains('gym equipment');
 
     // Exclude exercises that target user's physical issues
     final hasIssue = exercise.physicalIssues
         .any((issue) => physicalIssuesSet.contains(issue));
 
-    return matchesEquipment && !hasIssue;
+    final matchesGender = exercise.gender == 'Any' || exercise.gender == gender;
+    final ageAppropriate = exercise.isAgeAppropriate(age);
+
+    //debug
+    print('Available equipment: $hasEquipment');
+    //print('Exercises filtered: ${.map((e) => e.name)}');
+
+    return matchesEquipment && !hasIssue && matchesGender && ageAppropriate;
   }).toList();
 }

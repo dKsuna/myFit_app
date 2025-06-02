@@ -1,20 +1,34 @@
 class Exercise {
   final int id;
   final String name;
+  final String gender;
   final String bodyPart;
   final String equipment;
   final String category;
   final String description;
   final List<String> physicalIssues;
+  final int? sets;
+  final String? reps;
+  final int minAge;
+  final int maxAge;
+
+  bool isAgeAppropriate(int age) {
+    return age >= minAge && age <= maxAge;
+  }
 
   Exercise({
     required this.id,
     required this.name,
+    required this.gender,
     required this.bodyPart,
     required this.equipment,
     required this.category,
     required this.description,
     this.physicalIssues = const [],
+    this.sets,
+    this.reps,
+    required this.minAge,
+    required this.maxAge,
   });
 
   // Converts an Exercise object into a Map (for database insertion)
@@ -22,11 +36,16 @@ class Exercise {
     return {
       'id': id,
       'name': name,
+      'gender': gender,
       'bodyPart': bodyPart,
       'equipment': equipment,
       'category': category,
       'description': description,
       'physicalIssues': physicalIssues.join(','),
+      'sets': sets,
+      'reps': reps,
+      'minAge': minAge,
+      'maxAge': maxAge,
     };
   }
 
@@ -35,11 +54,16 @@ class Exercise {
     return Exercise(
       id: map['id'],
       name: map['name'],
+      gender: map['gender'],
       bodyPart: map['bodyPart'],
       equipment: map['equipment'],
       category: map['category'],
       description: map['description'],
       physicalIssues: (map['physicalIssues'] as String?)?.split(',') ?? [],
+      sets: map['sets'],
+      reps: map['reps'],
+      minAge: map['minAge'],
+      maxAge: map['maxAge'],
     );
   }
 
@@ -51,11 +75,16 @@ class Exercise {
     return Exercise(
       id: id,
       name: name,
+      gender: gender,
       bodyPart: bodyPart,
       equipment: equipment,
       category: category,
       description: description,
       physicalIssues: physicalIssues,
+      sets: sets,
+      reps: reps,
+      minAge: minAge,
+      maxAge: maxAge,
     );
   }
 
