@@ -21,7 +21,7 @@ class _MainScreenState extends State<MainScreen> {
     _screens = [
       RoutineScreen(userName: widget.userName),
       const ProgressScreen(),
-      const ProfileScreen(),
+      ProfileScreen(userName: widget.userName), // pass userName here
     ];
   }
 
@@ -43,10 +43,17 @@ class _MainScreenState extends State<MainScreen> {
         },
         items: const [
           BottomNavigationBarItem(
-              icon: Icon(Icons.fitness_center), label: 'Home'),
+            icon: Icon(Icons.fitness_center),
+            label: 'Home',
+          ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.bar_chart), label: 'Progress'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+            icon: Icon(Icons.bar_chart),
+            label: 'Progress',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
+          ),
         ],
       ),
     );

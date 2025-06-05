@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../database/db_helper.dart';
 import '../screens/models/workout_model.dart';
-//import '../screens/models/workout_gen.dart';
 
 class ProgressScreen extends StatefulWidget {
   const ProgressScreen({super.key});
@@ -17,6 +16,12 @@ class _ProgressScreenState extends State<ProgressScreen> {
   @override
   void initState() {
     super.initState();
+    fetchWorkouts();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     fetchWorkouts();
   }
 
@@ -41,12 +46,31 @@ class _ProgressScreenState extends State<ProgressScreen> {
                   margin: const EdgeInsets.all(8.0),
                   child: ListTile(
                     title: Text('${workout.day} - ${workout.type}'),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: workout.exercises
-                          .map((e) => Text('• ${e.name}'))
-                          .toList(),
+                    subtitle: Text(
+                      '${workout.exercises.length} exercises',
                     ),
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (_) => AlertDialog(
+                          title: Text('${workout.day} - ${workout.type}'),
+                          content: SizedBox(
+                            width: double.maxFinite,
+                            child: ListView(
+                              shrinkWrap: true,
+                              children: workout.exercises.map((e) {
+                                return ListTile(
+                                  title: Text(e.name),
+                                  subtitle: Text(
+                                    'Sets: ${e.sets ?? '-'}, Reps: ${e.reps ?? '-'}',
+                                  ),
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 );
               },

@@ -72,7 +72,10 @@ class DetailsScreen extends StatelessWidget {
                   Navigator.pushReplacementNamed(context, '/main',
                       arguments: user.name);
                 },
-                child: const Text("→", style: TextStyle(fontSize: 20)),
+                child: const Icon(
+                  Icons.keyboard_arrow_right_rounded,
+                  size: 40,
+                ),
               ),
             ),
           ],
