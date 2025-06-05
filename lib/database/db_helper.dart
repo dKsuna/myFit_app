@@ -19,13 +19,16 @@ class DBHelper {
     String path = join(await getDatabasesPath(), 'myFit.db');
     return openDatabase(
       path,
-      version: 3, // bump version to trigger onUpgrade
+      version: 2, // bump version to trigger onUpgrade
       onCreate: (db, version) async {
         print('Database created!');
         await _createTables(db);
+        //await insertUser(db);
       },
       onUpgrade: (db, oldVersion, newVersion) async {
         if (oldVersion < 3) {
+          print(
+              'onUpgrade called: oldVersion $oldVersion to newVersion $newVersion');
           // Drop all existing tables
           await db.execute('DROP TABLE IF EXISTS Users');
           await db.execute('DROP TABLE IF EXISTS ProgressLog');
@@ -35,25 +38,28 @@ class DBHelper {
 
           // Recreate tables
           await _createTables(db);
+          //await DBHelper().insertUser(db);
         }
       },
     );
   }
 
   Future<void> _createTables(Database db) async {
+    //id INTEGER ,
     await db.execute('''
-      CREATE TABLE Users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT,
+      CREATE TABLE Users (  
+        name TEXT PRIMARY KEY,
         age INTEGER,
-        gender TEXT,
-        height TEXT,
-        weight INTEGER,
+        gender TEXT,        
+        weightKg INTEGER,
+        heightFeet TEXT,
+        heightInches TEXT,
         goal TEXT,
         experienceLevel TEXT,
+        physicalIssues TEXT,
         daysForWorkout TEXT,
-        equipmentAvailable TEXT,
-        physicalIssues TEXT
+        equipmentAvailable TEXT
+        
       );
     ''');
 
@@ -83,9 +89,8 @@ class DBHelper {
     ''');
 
     await db.execute('''
-      CREATE TABLE Workouts (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        userId INTEGER,
+      CREATE TABLE Workouts (        
+        userId INTEGER PRIMARY KEY,
         workoutName TEXT,
         duration INTEGER,
         date TEXT,
@@ -205,6 +210,20 @@ class DBHelper {
       return result.first;
     } else {
       return null;
+    }
+  }
+
+  Future<Map<String, dynamic>> getUserByName(String userName) async {
+    final db = await database;
+    final List<Map<String, dynamic>> result = await db.query(
+      'Users',
+      where: 'name = ?',
+      whereArgs: [userName],
+    );
+    if (result.isNotEmpty) {
+      return result.first;
+    } else {
+      throw Exception('User Name not Found');
     }
   }
 }

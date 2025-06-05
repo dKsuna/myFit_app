@@ -6,13 +6,13 @@ class User {
   final double weightKg;
   final int heightFeet;
   final int heightInches;
-  final String fitnessGoal;
+  final String goal;
   final String experienceLevel;
   final String physicalIssues;
 
   // Store these fields as comma-separated Strings in the database
-  final String workoutDays;
-  final String equipmentAccess;
+  final String daysForWorkout;
+  final String equipmentAvailable;
 
   User({
     this.id,
@@ -22,50 +22,50 @@ class User {
     required this.weightKg,
     required this.heightFeet,
     required this.heightInches,
-    required this.fitnessGoal,
+    required this.goal,
     required this.experienceLevel,
     required this.physicalIssues,
-    required this.workoutDays,
-    required this.equipmentAccess,
+    required this.daysForWorkout,
+    required this.equipmentAvailable,
   });
 
   // Convert comma-separated string back to List<String>
-  List<String> get workoutDaysList => workoutDays.split(',');
-  List<String> get equipmentAccessList => equipmentAccess.split(',');
+  List<String> get workoutDaysList => daysForWorkout.split(',');
+  List<String> get equipmentAccessList => equipmentAvailable.split(',');
 
   // Static method to create a User from a Map (used for fetching data from SQLite)
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
-      id: map['id'],
+      //id: map['id'],
       name: map['name'],
       age: map['age'],
       gender: map['gender'],
       weightKg: map['weightKg'],
       heightFeet: map['heightFeet'],
       heightInches: map['heightInches'],
-      fitnessGoal: map['fitnessGoal'],
+      goal: map['fitnessGoal'],
       experienceLevel: map['experienceLevel'],
       physicalIssues: map['physicalIssues'],
-      workoutDays: map['workoutDays'],
-      equipmentAccess: map['equipmentAccess'],
+      daysForWorkout: map['daysForWorkout'],
+      equipmentAvailable: map['equipmentAvailable'],
     );
   }
 
   // Convert User object to Map (used for inserting data into SQLite)
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
+      //'id': id,
       'name': name,
       'age': age,
       'gender': gender,
       'weightKg': weightKg,
       'heightFeet': heightFeet,
       'heightInches': heightInches,
-      'fitnessGoal': fitnessGoal,
+      'goal': goal,
       'experienceLevel': experienceLevel,
       'physicalIssues': physicalIssues,
-      'workoutDays': workoutDays,
-      'equipmentAccess': equipmentAccess,
+      'daysForWorkout': daysForWorkout,
+      'equipmentAvailable': equipmentAvailable,
     };
   }
 }

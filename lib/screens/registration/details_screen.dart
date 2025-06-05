@@ -36,7 +36,7 @@ class DetailsScreen extends StatelessWidget {
             Text("Height: ${user.heightFeet} ft ${user.heightInches} in",
                 style: const TextStyle(fontSize: 20)),
             const SizedBox(height: 20),
-            Text("Fitness Goal: ${user.fitnessGoal}",
+            Text("Fitness Goal: ${user.goal}",
                 style: const TextStyle(fontSize: 20)),
             const SizedBox(height: 20),
             Text("Experience Level: ${user.experienceLevel}",
@@ -45,10 +45,10 @@ class DetailsScreen extends StatelessWidget {
             Text("Physical Issues: ${user.physicalIssues}",
                 style: const TextStyle(fontSize: 20)),
             const SizedBox(height: 20),
-            Text("Workout Days: ${user.workoutDays}",
+            Text("Workout Days: ${user.daysForWorkout}",
                 style: const TextStyle(fontSize: 20)),
             const SizedBox(height: 20),
-            Text("Equipment Access: ${user.equipmentAccess}",
+            Text("Equipment Access: ${user.equipmentAvailable}",
                 style: const TextStyle(fontSize: 20)),
             const SizedBox(height: 30),
             Align(
@@ -58,6 +58,7 @@ class DetailsScreen extends StatelessWidget {
                   final dbHelper = DBHelper(); // Create an instance of DBHelper
 
                   // Map the User data into a format suitable for the database
+                  /*
                   Map<String, dynamic> userMap = {
                     'Name': user.name,
                     'Age': user.age,
@@ -68,10 +69,16 @@ class DetailsScreen extends StatelessWidget {
                     'PhysicalIssues': user.physicalIssues,
                     'DaysForWorkout': user.workoutDays,
                     'EquipmentAvailable': user.equipmentAccess,
-                  };
+                  };*/
 
                   // Insert the user into the database
-                  await dbHelper.insertUser(userMap);
+                  await dbHelper.insertUser(user.toMap());
+
+                  //debug
+                  print('name inserted is: ${user.name}');
+                  List<Map<String, dynamic>> users =
+                      await DBHelper().database.then((db) => db.query('Users'));
+                  print('Users: $users');
 
                   // Navigate to the main screen
                   Navigator.pushReplacementNamed(context, '/main');

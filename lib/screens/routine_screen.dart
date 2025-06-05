@@ -15,12 +15,13 @@ class _RoutineScreenState extends State<RoutineScreen> {
   List<Workout> _generatedWorkouts = [];
 
   Future<void> _generateRoutine() async {
-    final user =
-        await _dbHelper.getUserById(1); // adjust user id logic as needed
+    final user = await _dbHelper.getUserByName(
+        'asdf'); // placeholder change to the value inserted by the user
 
-    if (user != null) {
-      final generatedRoutine = await generateWorkoutPlan(1);
+    if (user.isNotEmpty) {
+      final generatedRoutine = await generateWorkoutPlan('asdf');
       setState(() {
+        print('in _generateRoutine');
         _generatedWorkouts = generatedRoutine;
       });
     }

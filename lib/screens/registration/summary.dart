@@ -40,11 +40,11 @@ class SummaryScreen extends StatelessWidget {
         weightKg: double.parse(weight),
         heightFeet: int.parse(heightFeet),
         heightInches: int.parse(heightInches),
-        fitnessGoal: goal,
+        goal: goal,
         experienceLevel: experience,
         physicalIssues: issues ?? '', // Handle null case for physicalIssues
-        workoutDays: workoutDays.join(','), // Convert list to string
-        equipmentAccess: equipmentAccess.join(','), // Convert list to string
+        daysForWorkout: workoutDays.join(','), // Convert list to string
+        equipmentAvailable: equipmentAccess.join(','), // Convert list to string
       );
 
       return Scaffold(

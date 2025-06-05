@@ -116,6 +116,7 @@ final List<Exercise> allExercises = [
     minAge: 18,
     maxAge: 60,
     experienceLevel: ['Beginner', 'Intermediate'],
+    goals: ['gain', 'lose', 'maintain'],
   ),
   Exercise(
     id: 9,

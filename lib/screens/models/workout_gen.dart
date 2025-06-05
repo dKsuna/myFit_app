@@ -3,16 +3,16 @@ import '../models/exercise_model.dart';
 import '../models/workout_model.dart';
 import '../../data/exercises.dart';
 
-Future<List<Workout>> generateWorkoutPlan(int userId) async {
+Future<List<Workout>> generateWorkoutPlan(String userName) async {
   final dbHelper = DBHelper();
 
   // 1️⃣ Fetch user profile data
-  final profile = await dbHelper.getUserById(userId);
-  if (profile == null) {
+  final profile = await dbHelper.getUserByName(userName);
+  if (profile.isEmpty) {
     throw Exception('User not found');
   }
 
-  final String gender = profile['gender'] ?? 'Any';
+  //final String gender = profile['gender'] ?? 'Any';
   // 2️⃣ Ensure required fields exist in the profile
   if (!profile.containsKey('daysForWorkout') || !profile.containsKey('goal')) {
     throw Exception('Missing necessary profile fields');
@@ -51,7 +51,7 @@ Future<List<Workout>> generateWorkoutPlan(int userId) async {
 
     weeklyPlan.add(
       Workout(
-        userId: userId,
+        workoutName: userName, //workoutName should be instead userName
         day: day,
         type: workoutType,
         exercises: dayExercises,
@@ -105,12 +105,12 @@ Map<String, List<String>> _determineWorkoutSplit(int totalDays, String goal) {
 
 List<Exercise> _selectExercisesForDay(List<Exercise> pool, String goal) {
   const basePresets = {
-    'strength': {'count': 4, 'sets': 4, 'reps': '4-6'},
-    'hypertrophy': {'count': 6, 'sets': 3, 'reps': '8-12'},
-    'endurance': {'count': 8, 'sets': 2, 'reps': '15-20'},
+    'maintain': {'count': 4, 'sets': 3, 'reps': '10-12'},
+    'gain': {'count': 6, 'sets': 3, 'reps': '8-12'},
+    'lose': {'count': 8, 'sets': 4, 'reps': '15-20'},
   };
 
-  final preset = basePresets[goal.toLowerCase()] ?? basePresets['hypertrophy']!;
+  final preset = basePresets[goal.toLowerCase()]!;
 
   final shuffled = List.of(pool)..shuffle();
 
@@ -122,15 +122,15 @@ List<Exercise> _selectExercisesForDay(List<Exercise> pool, String goal) {
     if (!exercise.goals.contains(goal)) {
       // If exercise isn't specifically for user's goal, adjust based on goal type
       switch (goal.toLowerCase()) {
-        case 'lose weight':
+        case 'lose':
           sets += 1;
           reps = adjustReps(reps, increase: true);
           break;
-        case 'gain weight':
+        case 'gain':
           sets -= 1;
           reps = adjustReps(reps, increase: true);
           break;
-        case 'maintain weight':
+        case 'maintain':
           sets -= 1;
           reps = adjustReps(reps, increase: false);
           break;
@@ -175,11 +175,17 @@ Map<String, List<Exercise>> _categorizeExercises(
           false;
     }).toList();
 
+    print('\nCategory: $category');
+    //print('Mapped Body Parts: ${_muscleGroupMapping[category]}');
+    print('Exercises found: ${available.map((e) => e.name).toList()}');
+
     // Debug print exercise count per category
     print('$category: ${available.length} exercises available.');
 
     categorized[category] = available;
   }
+
+  print('Req. Categories: $requiredCategories');
 
   return categorized;
 }
@@ -195,18 +201,23 @@ const _muscleGroupMapping = {
 
 Future<List<Exercise>> _getFilteredExercises(
     Map<String, dynamic> profile) async {
+  print(profile);
   final equipmentString = profile['equipmentAvailable']?.toString() ?? '';
   final physicalIssuesString = profile['physicalIssues']?.toString() ?? '';
-  final String gender = profile['gender'] ?? 'Any';
+  final String gender = profile['gender'];
   final int age = int.tryParse(profile['age'].toString()) ?? 21;
-  final String experienceLevel = profile['experienceLevel'] ?? 'Beginner';
-  final String goal = profile['goals'] ?? 'maintain';
+  final String experienceLevel = profile['experienceLevel'];
+  final String goal = profile['goal'];
 
-  final hasEquipment = equipmentString
-      .split(',')
-      .map((e) => e.trim().toLowerCase())
-      .where((e) => e.isNotEmpty)
-      .toSet();
+  final hasEquipment =
+      equipmentString.split(',').map((e) => e.trim().toLowerCase()).expand((e) {
+    if (e == 'gym equipment') {
+      print(Exercise.gymEquipmentTypes.map((type) => type.toLowerCase()));
+      return Exercise.gymEquipmentTypes.map((type) => type.toLowerCase());
+    }
+    print([e]);
+    return [e];
+  }).toSet();
 
   final physicalIssuesSet = physicalIssuesString
       .split(',')
@@ -216,10 +227,10 @@ Future<List<Exercise>> _getFilteredExercises(
 
   return allExercises.where((exercise) {
     // Only include if user has equipment or exercise is bodyweight
-    final matchesEquipment = exercise.equipment.toLowerCase() == 'Bodyweight' ||
-        hasEquipment.contains(exercise.equipment.toLowerCase()) ||
-        hasEquipment.contains('gym equipment');
-
+//if when selected is bodyweight and error occurs de-comment the following line
+    final matchesEquipment = //exercise.equipment.toLowerCase() == 'bodyweight' ||
+        hasEquipment.contains(exercise.equipment.toLowerCase());
+//SOMETHING WRONG IN THIS PART OF THE CODE
     // Exclude exercises that target user's physical issues
     final hasIssue = exercise.physicalIssues
         .any((issue) => physicalIssuesSet.contains(issue));
@@ -228,12 +239,13 @@ Future<List<Exercise>> _getFilteredExercises(
     final ageAppropriate = exercise.isAgeAppropriate(age);
     final matchesExperience =
         exercise.experienceLevel.contains(experienceLevel);
-    final goalMatches = exercise.goals.isEmpty || exercise.goals.contains(goal);
+    final goalMatches =
+        exercise.goals.isEmpty || exercise.goals.contains(goal.toLowerCase());
 
     //debug
     print('Available equipment: $hasEquipment');
-    print(
-        'Exercise: ${exercise.name} | Experience Levels: ${exercise.experienceLevel} | User: $experienceLevel');
+    //print(
+    //'Exercise: ${exercise.name} | Experience Levels: ${exercise.experienceLevel} | User: $experienceLevel');
 
     //print('Exercises filtered: ${.map((e) => e.name)}');
 
