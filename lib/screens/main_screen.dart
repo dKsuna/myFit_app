@@ -4,7 +4,8 @@ import 'progress_screen.dart';
 import 'profile_screen.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+  final String userName;
+  const MainScreen({super.key, required this.userName});
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -12,12 +13,17 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _currentIndex = 0;
+  late List<Widget> _screens;
 
-  final List<Widget> _screens = const [
-    RoutineScreen(),
-    ProgressScreen(),
-    ProfileScreen(),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _screens = [
+      RoutineScreen(userName: widget.userName),
+      const ProgressScreen(),
+      const ProfileScreen(),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {

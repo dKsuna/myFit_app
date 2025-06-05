@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:myfit/database/db_helper.dart'; // Import DBHelper
 import 'package:myfit/screens/models/user_model.dart'; // Import User model
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../helpers/shared_pfres_helper.dart';
 
 class DetailsScreen extends StatelessWidget {
   final User user;
@@ -57,31 +59,18 @@ class DetailsScreen extends StatelessWidget {
                 onPressed: () async {
                   final dbHelper = DBHelper(); // Create an instance of DBHelper
 
-                  // Map the User data into a format suitable for the database
-                  /*
-                  Map<String, dynamic> userMap = {
-                    'Name': user.name,
-                    'Age': user.age,
-                    'Weight': user.weightKg,
-                    'Height': '${user.heightFeet} ft ${user.heightInches} in',
-                    'Goal': user.fitnessGoal,
-                    'ExperienceLevel': user.experienceLevel,
-                    'PhysicalIssues': user.physicalIssues,
-                    'DaysForWorkout': user.workoutDays,
-                    'EquipmentAvailable': user.equipmentAccess,
-                  };*/
-
                   // Insert the user into the database
                   await dbHelper.insertUser(user.toMap());
 
                   //debug
-                  print('name inserted is: ${user.name}');
+                  //print('name inserted is: ${user.name}');
                   List<Map<String, dynamic>> users =
                       await DBHelper().database.then((db) => db.query('Users'));
                   print('Users: $users');
-
+                  await completeRegistration(user.name);
                   // Navigate to the main screen
-                  Navigator.pushReplacementNamed(context, '/main');
+                  Navigator.pushReplacementNamed(context, '/main',
+                      arguments: user.name);
                 },
                 child: const Text("→", style: TextStyle(fontSize: 20)),
               ),

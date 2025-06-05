@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myfit/screens/registration/details_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'screens/registration/name_screen.dart';
 import 'screens/registration/age_screen.dart';
 import 'screens/registration/weight_screen.dart';
@@ -13,21 +14,35 @@ import 'screens/registration/summary.dart';
 import 'screens/models/user_model.dart';
 import 'package:myfit/screens/main_screen.dart';
 import 'screens/registration/gender_screen.dart';
+import 'package:myfit/database/db_helper.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final pfres = await SharedPreferences.getInstance();
+  final bool isRegistered = pfres.getBool('isRegistered') ?? false;
+  final String? userName = pfres.getString('userName');
+
+  DBHelper db = DBHelper();
+  await db.database;
+  runApp(MyApp(
+    isRegistered: isRegistered,
+    userName: userName,
+  ));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final bool isRegistered;
+  final String? userName;
+  const MyApp({Key? key, required this.isRegistered, required this.userName});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'myFit',
-      initialRoute: '/',
+      theme: ThemeData(primarySwatch: Colors.blue),
+      debugShowCheckedModeBanner: false,
+      home: isRegistered ? MainScreen(userName: userName ?? '') : NameScreen(),
       routes: {
-        '/': (context) => NameScreen(),
         '/age': (context) => AgeScreen(),
         '/gender': (context) => const GenderScreen(),
         '/weight': (context) => WeightScreen(),
@@ -42,10 +57,11 @@ class MyApp extends StatelessWidget {
           final user = ModalRoute.of(context)!.settings.arguments as User;
           return DetailsScreen(user: user);
         },
-        '/main': (context) => const MainScreen(),
+        '/main': (context) {
+          final userName = ModalRoute.of(context)!.settings.arguments as String;
+          return MainScreen(userName: userName);
+        },
       },
-      theme: ThemeData(primarySwatch: Colors.blue),
-      debugShowCheckedModeBanner: false,
     );
   }
 }

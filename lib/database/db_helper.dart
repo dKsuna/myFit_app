@@ -1,7 +1,7 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 //import '../screens/models/exercise_model.dart';
-//import '../screens/models/workout_model.dart';
+import '../screens/models/workout_model.dart';
 
 class DBHelper {
   static Database? _database;
@@ -17,16 +17,20 @@ class DBHelper {
 
   Future<Database> _initDatabase() async {
     String path = join(await getDatabasesPath(), 'myFit.db');
+    print('Database path: $path');
     return openDatabase(
       path,
-      version: 2, // bump version to trigger onUpgrade
+      version: 4, // bump version to trigger onUpgrade
       onCreate: (db, version) async {
         print('Database created!');
         await _createTables(db);
         //await insertUser(db);
+        var tables = await db
+            .rawQuery("SELECT name FROM sqlite_master WHERE type='table'");
+        print(tables);
       },
       onUpgrade: (db, oldVersion, newVersion) async {
-        if (oldVersion < 3) {
+        if (oldVersion < newVersion) {
           print(
               'onUpgrade called: oldVersion $oldVersion to newVersion $newVersion');
           // Drop all existing tables
@@ -84,20 +88,21 @@ class DBHelper {
         userId INTEGER,
         dateStarted TEXT,
         routineData TEXT,
-        FOREIGN KEY (userId) REFERENCES Users(id)
+        FOREIGN KEY (userId) REFERENCES Users(id),
+        FOREIGN KEY (dateStarted) REFERENCES Workouts(date)        
       );
     ''');
 
+//workoutId INTEGER PRIMARY KEY,FOREIGN KEY (userId) REFERENCES Users(id)
     await db.execute('''
-      CREATE TABLE Workouts (        
-        userId INTEGER PRIMARY KEY,
-        workoutName TEXT,
-        duration INTEGER,
-        date TEXT,
+      CREATE TABLE Workouts (
+        workoutID INTEGER PRIMARY KEY AUTOINCREMENT,
+        userName TEXT,
+        date TEXT ,
         day TEXT,
         type TEXT,
         exercises TEXT,
-        FOREIGN KEY (userId) REFERENCES Users(id)
+        FOREIGN KEY (userName) REFERENCES Users(name)        
       );
     ''');
 
@@ -225,5 +230,16 @@ class DBHelper {
     } else {
       throw Exception('User Name not Found');
     }
+  }
+
+  Future<List<Workout>> getWorkouts() async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query('Workouts');
+
+    print('Fetched workouts: $maps');
+
+    return List.generate(maps.length, (i) {
+      return Workout.fromMap(maps[i]);
+    });
   }
 }

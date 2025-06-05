@@ -4,36 +4,65 @@ import '../screens/models/workout_model.dart';
 import '../screens/models/workout_gen.dart';
 
 class RoutineScreen extends StatefulWidget {
-  const RoutineScreen({super.key});
+  final String userName;
+  const RoutineScreen({super.key, required this.userName});
 
   @override
   State<RoutineScreen> createState() => _RoutineScreenState();
 }
 
 class _RoutineScreenState extends State<RoutineScreen> {
-  final DBHelper _dbHelper = DBHelper();
+  bool isSaved = false;
+  late final DBHelper _dbHelper;
   List<Workout> _generatedWorkouts = [];
 
+  @override
+  void initState() {
+    super.initState();
+    _dbHelper = DBHelper();
+  }
+
   Future<void> _generateRoutine() async {
-    final user = await _dbHelper.getUserByName(
-        'asdf'); // placeholder change to the value inserted by the user
+    final user = await _dbHelper.getUserByName(widget
+        .userName); // placeholder change to the value inserted by the user
 
     if (user.isNotEmpty) {
-      final generatedRoutine = await generateWorkoutPlan('asdf');
+      final generatedRoutine = await generateWorkoutPlan(widget.userName);
       setState(() {
         print('in _generateRoutine');
+        print(widget.userName);
         _generatedWorkouts = generatedRoutine;
+        isSaved = false;
       });
     }
   }
 
   Future<void> _saveRoutine() async {
-    if (_generatedWorkouts.isNotEmpty) {
-      for (var workout in _generatedWorkouts) {
-        await _dbHelper.insertWorkout(workout.toMap());
+    try {
+      if (_generatedWorkouts.isNotEmpty) {
+        final dateSaved = DateTime.now();
+        final formattedDate =
+            '${dateSaved.year}-${dateSaved.month.toString().padLeft(2, '0')}-${dateSaved.day.toString().padLeft(2, '0')}';
+        for (var workout in _generatedWorkouts) {
+          await _dbHelper.insertWorkout(workout.toMap(date: formattedDate));
+        }
+        //display workouts saved
+        List<Map<String, dynamic>> workout_display =
+            await DBHelper().database.then((db) => db.query('Workouts'));
+        print('Inserted Workouts:');
+        print('Workouts: $workout_display');
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Routine saved successfully!')),
+        );
+
+        setState(() {
+          isSaved = true;
+        });
       }
+    } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Routine saved successfully!')),
+        const SnackBar(content: Text('Error saving routine!')),
       );
     }
   }
@@ -94,10 +123,19 @@ class _RoutineScreenState extends State<RoutineScreen> {
                   },
                   child: const Text('Edit'),
                 ),
-                ElevatedButton(
-                  onPressed: _saveRoutine,
-                  child: const Text('Save'),
-                ),
+                if (!isSaved)
+                  ElevatedButton(
+                    onPressed: _saveRoutine,
+                    child: const Text('Save'),
+                  )
+                else
+                  const Text(
+                    'Routine Saved!',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.green,
+                    ),
+                  ),
               ],
             )
           ],

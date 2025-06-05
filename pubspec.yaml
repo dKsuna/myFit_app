@@ -35,6 +35,7 @@ dependencies:
   path: null
   path_provider: null
   permission_handler: null
+  shared_preferences: ^2.5.3
   sqflite: ^2.4.0
 
 dev_dependencies:

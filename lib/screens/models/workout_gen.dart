@@ -51,7 +51,9 @@ Future<List<Workout>> generateWorkoutPlan(String userName) async {
 
     weeklyPlan.add(
       Workout(
-        workoutName: userName, //workoutName should be instead userName
+        workoutID: 1, //placeholder for workoutID
+        userName: userName,
+        date: workoutType, //placeholder for date
         day: day,
         type: workoutType,
         exercises: dayExercises,
